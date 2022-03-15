@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useRef, useMemo, Suspense } from "react";
 
 import { Center, OrbitControls } from "@react-three/drei";
@@ -9,17 +10,22 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 extend({ TextGeometry });
 
 const ThreeDText = () => {
+  const router = useRouter();
+
   return (
     <div className="absolute top-0 left-0 w-full h-screen">
       <Suspense fallback={"Loading..."}>
         <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 2] }}>
           <OrbitControls />
-          <Text font="/static/fonts/helvetiker_regular.typeface.json">
+          <Text
+            font="/static/fonts/helvetiker_regular.typeface.json"
+            onClick={() => router.push("/")}
+          >
             Chris Low
           </Text>
           {Array(1000)
             .fill(0)
-            .map((index) => (
+            .map((_, index) => (
               <Torus key={index} />
             ))}
         </Canvas>
