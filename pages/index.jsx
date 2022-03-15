@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -8,11 +8,11 @@ export default function Home() {
           rotating boxes
         </p>
       </Link>
-      <Link href="/scrolling-html">
+      <Link href="/3d-text">
         <p className="my-2 text-2xl font-semibold cursor-pointer hover:underline">
-          scrolling html (failed)
+          3D text
         </p>
       </Link>
     </>
-  )
+  );
 }
