@@ -1,37 +1,31 @@
-import { extend, useLoader, Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import { useRef, useMemo, Suspense } from "react";
+
+import { Center, OrbitControls } from "@react-three/drei";
+import { extend, useLoader, Canvas, useFrame } from "@react-three/fiber";
+
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { useMemo, Suspense } from "react";
-import { render } from "react-dom";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 
 extend({ TextGeometry });
 
 const ThreeDText = () => {
   return (
-    <div className="w-full h-screen">
+    <div className="absolute top-0 left-0 w-full h-screen">
       <Suspense fallback={"Loading..."}>
-        <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 8] }}>
+        <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 2] }}>
           <OrbitControls />
           <Text font="/static/fonts/helvetiker_regular.typeface.json">
-            Text
+            Chris Low
           </Text>
+          {Array(1000)
+            .fill(0)
+            .map((index) => (
+              <Torus key={index} />
+            ))}
         </Canvas>
       </Suspense>
     </div>
   );
-  // return (
-  //   <div className="w-full h-screen">
-  //     <Canvas>
-  //       <group>
-  //         <mesh>
-  //           <Torus />
-  //         </mesh>
-  //       </group>
-  //       <OrbitControls />
-  //     </Canvas>
-  //   </div>
-  // );
 };
 
 const Text = ({ font: fontURL, children, ...props }) => {
@@ -39,12 +33,12 @@ const Text = ({ font: fontURL, children, ...props }) => {
   const settings = useMemo(
     () => ({
       font,
-      size: 3,
-      height: 0.4,
+      size: 0.5,
+      height: 0.2,
       curveSegments: 24,
       bevelEnabled: true,
-      bevelThickness: 0.9,
-      bevelSize: 0.3,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
       bevelOffset: 0,
       bevelSegments: 10,
     }),
@@ -52,21 +46,39 @@ const Text = ({ font: fontURL, children, ...props }) => {
   );
 
   return (
-    <mesh {...props}>
-      <meshNormalMaterial />
-      <textGeometry args={[children, settings]} />
-    </mesh>
+    <Center>
+      <mesh {...props}>
+        <meshNormalMaterial />
+        <textGeometry args={[children, settings]} anchorX="center" />
+      </mesh>
+    </Center>
   );
 };
 
 function Torus() {
+  const torusRef = useRef();
+  const randomXStart = Math.random() * 10;
+  const randomYStart = Math.random() * 10;
+
+  useFrame(({ clock }) => {
+    torusRef.current.rotation.x = randomXStart + clock.getElapsedTime();
+    torusRef.current.rotation.y = randomYStart + clock.getElapsedTime();
+  });
+
   return (
-    <group>
-      <mesh>
-        <torusBufferGeometry attach="geometry" args={[1, 0.3, 16, 100]} />
-        <meshStandardMaterial attach="material" color="red" />
-      </mesh>
-    </group>
+    <mesh
+      ref={torusRef}
+      position={[
+        (Math.random() - 0.5) * 50,
+        (Math.random() - 0.5) * 50,
+        (Math.random() - 0.5) * 50,
+      ]}
+      rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+      scale={Array(3).fill(Math.random())}
+    >
+      <torusGeometry attach="geometry" args={[0.3, 0.2, 20, 45]} />
+      <meshNormalMaterial />
+    </mesh>
   );
 }
 
