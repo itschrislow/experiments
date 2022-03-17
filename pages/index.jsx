@@ -13,6 +13,11 @@ export default function Home() {
           3D text
         </p>
       </Link>
+      <Link href="/haunted-house">
+        <p className="my-2 text-2xl font-semibold cursor-pointer hover:underline">
+          haunted house
+        </p>
+      </Link>
     </>
   );
 }
