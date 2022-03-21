@@ -6,6 +6,7 @@ const AnimeJS = () => {
   const anime2Ref = useRef();
   const anime3Ref = useRef();
   const anime4Ref = useRef();
+  const anime5Ref = useRef();
 
   useEffect(() => {
     anime1Ref.current = anime({
@@ -63,6 +64,20 @@ const AnimeJS = () => {
       strokeDashoffset: [anime.setDashoffset, 0],
       easing: "easeInOutCubic",
       duration: 1000,
+      loop: true,
+    });
+
+    anime5Ref.current = anime({
+      targets: ".anime5",
+      points: [
+        { value: "300 300, 300 100, 400 200, 500 300, 300 300" },
+        { value: "300 300, 300 100, 500 100, 400 200, 300 300" },
+        { value: "400 200, 300 100, 500 100, 500 300, 400 200" },
+        { value: "300 300, 400 200, 500 100, 500 300, 300 300" },
+        { value: "300 300, 300 100, 500 100, 500 300, 300 300" },
+      ],
+      easing: "easeOutQuad",
+      duration: 2000,
       loop: true,
     });
   }, []);
@@ -185,6 +200,34 @@ const AnimeJS = () => {
           </g>
         </svg>
       </div>
+      {/* ANIME 5 */}
+      <svg width="600" height="600" className="relative">
+        <polygon
+          stroke="none"
+          fill="#e0e7ff"
+          points="300 300, 300 100, 500 100, 500 300, 300 300"
+          className="absolute"
+        />
+        <polygon
+          stroke="none"
+          fill="#c7d2fe"
+          points="325 275, 325 125, 475 125, 475 275, 325 275"
+          className="absolute"
+        />
+        <polygon
+          stroke="none"
+          fill="#a5b4fc"
+          points="350 250, 350 150, 450 150, 450 250, 350 250"
+          className="absolute"
+        />
+        <polygon
+          ref={anime5Ref}
+          stroke="#4338ca"
+          fill="none"
+          points="300 300, 300 100, 500 100, 500 300, 300 300"
+          className="absolute anime5"
+        />
+      </svg>
     </div>
   );
 };
