@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 const AnimeJS = () => {
   const anime1Ref = useRef();
   const anime2Ref = useRef();
+  const anime3Ref = useRef();
 
   useEffect(() => {
     anime1Ref.current = anime({
@@ -28,6 +29,33 @@ const AnimeJS = () => {
       duration: 6000,
       loop: true,
     });
+
+    anime3Ref.current = anime({
+      targets: ".anime3",
+      translateX: function (el, i) {
+        return 150 + 150 * i;
+      },
+      translateY: function (el, i) {
+        return 50 + -50 * i;
+      },
+      scale: function (el, i, l) {
+        return l - i + 0.5;
+      },
+      rotate: function () {
+        return anime.random(-360, 360);
+      },
+      borderRadius: function () {
+        return ["50%", anime.random(10, 45) + "%"];
+      },
+      duration: function () {
+        return anime.random(1200, 1800);
+      },
+      delay: function () {
+        return anime.random(0, 400);
+      },
+      direction: "alternate",
+      loop: true,
+    });
   }, []);
 
   return (
@@ -41,6 +69,27 @@ const AnimeJS = () => {
           ref={anime2Ref}
           className="anime2 w-10 h-10 bg-green-500 rounded-full"
         />
+      </div>
+      {/* ANIME 3 */}
+      <div className="relative w-full h-40 items-center">
+        <div className="absolute flex flex-col gap-4">
+          {Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i} className="w-10 h-10 bg-red-100 rounded-full" />
+            ))}
+        </div>
+        <div className="absolute flex flex-col gap-4">
+          {Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <div
+                key={i}
+                ref={anime3Ref}
+                className="anime3 w-10 h-10 bg-red-500 rounded-full"
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
