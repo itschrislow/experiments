@@ -6,7 +6,7 @@ export default function Nav() {
       lib: "threejs",
       experiments: ["3d-text", "haunted-house", "rotating-boxes"],
     },
-    { lib: "animejs", experiments: ["/", "staggering"] },
+    { lib: "animejs", experiments: ["basics", "staggering"] },
   ];
 
   return (
